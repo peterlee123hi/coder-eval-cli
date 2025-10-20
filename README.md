@@ -10,7 +10,7 @@
 
 ### Key Features
 - Evaluate code generation models and agents directly from the terminal
-- Integrates with standard SWE benchmarks (SWE-bench verified, HumanEval, MBPP, APPS)
+- Integrates with standard SWE benchmarks (SWE-bench verified, HumanEval, MBPP, APPS, LiveCodeBench)
 - Manage local test repositories and custom tasks
 - Generates detailed logs and a `stats.html` summary
 
@@ -62,7 +62,7 @@ This tool supports custom local repositories and tasks to evaluate models or age
 ### Options
 
 ```bash
---benchmark      humaneval | mbpp | apps | swe-bench-verified
+--benchmark      humaneval | mbpp | apps | swe-bench-verified | livecodebench
 --repo           https://www.github.com/test-user/sample-repo.git
 --dir            ./benchmarks
 --name           mbpp-only-arithmetic
