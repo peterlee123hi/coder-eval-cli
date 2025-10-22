@@ -35,7 +35,6 @@ coder-eval evaluate --path ./benchmarks/custom-bench --samples sample.jsonl
 
 # List tasks within benchmark
 coder-eval list-tasks --benchmark swe-bench-verified
-coder-eval list-tasks --path ./benchmarks/swe-bench-verified-task4
 ```
 
 ### Options

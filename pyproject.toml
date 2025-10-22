@@ -1,0 +1,32 @@
+[project]
+name = "coder-eval-cli"
+version = "0.1.0"
+description = "CLI for evaluating models and agents on coding benchmarks"
+authors = [
+    {name = "Peter Lee", email = "peterlee123hi@cs.ucla.edu"},
+    {name = "Ying Li", email = "yinglee@ucla.edu"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "typer (>=0.20.0,<0.21.0)",
+    "tqdm (>=4.67.1,<5.0.0)",
+    "pandas (>=2.3.3,<3.0.0)",
+    "gitpython (>=3.1.45,<4.0.0)"
+]
+
+[tool.poetry]
+packages = [{ include = "coder_eval", from = "src" }]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "black (>=25.9.0,<26.0.0)",
+    "ruff (>=0.14.1,<0.15.0)",
+    "pytest (>=8.4.2,<9.0.0)",
+    "mypy (>=1.18.2,<2.0.0)",
+    "pre-commit (>=4.3.0,<5.0.0)"
+]
