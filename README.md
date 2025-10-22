@@ -64,17 +64,30 @@ For repository-based benchmarks (SWE-Bench, LiveCodeBench), `--samples` must be 
 
 ## Task Metadata
 
-For repository-based benchmarks, the `tasks.jsonl` metadata file is used to specify tasks in the benchmark to evaluate (e.g. `./benchmarks/custom-benchmark/tasks.jsonl`). Each task specifies a repository snapshot, target files or diffs, and test cases to verify correctness.
+For problem-based and repository-based benchmarks, the `tasks.jsonl` metadata file is used to specify tasks in the benchmark to evaluate (e.g. `./benchmarks/custom-benchmark/tasks.jsonl`). Each task specifies a repository snapshot, target files or diffs, and test cases to verify correctness.
 
 ```json
 [
   {
+    "id": "mbpp_001",
+    "benchmark": "mbpp",
+    "type": "problem",
+    "prompt": "Write a Python function to compute factorial of a number.",
+    "entry_file": "main.py",
+    "test_file": "test_main.py",
+    "reference_solution": "def factorial(n): ...",
+    "tests": ["assert factorial(5) == 120"],
+    "description": "Basic recursion problem."
+  },
+  {
     "id": "myrepo_bugfix_42",
+    "benchmark": "custom-benchmark",
+    "type": "repository",
     "repo_path": "./repos/myrepo",
     "base_commit": "9f8e7d6",
     "patch_file": "./patches/fix_div_zero.diff",
     "test_file": "tests/test_division.py",
-    "description": "Fix division by zero error in divide() in src/utils/math.py."
+    "description": "Fix division by zero error in divide()."
   }
 ]
 ```

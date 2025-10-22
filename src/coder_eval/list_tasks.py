@@ -12,3 +12,7 @@ def list_tasks(
         typer.echo(f"Listing tasks for benchmark: {benchmark}")
     else:
         typer.echo("Please specify --benchmark.")
+
+    # TODO: implement default show 20 rows. Press N for next page. Press Q to quit.
+    # TODO: --limit to dump N tasks to stdout
+    # TODO: --all to dump all tasks to stdout
