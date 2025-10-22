@@ -6,11 +6,11 @@
 
 ## Overview
 
-**Coder Eval CLI** is a CLI tool to assist with evaluating coding agents on software engineering benchmarks.
+**Coder Eval CLI** is a tool to assist with evaluating coding agents on software engineering benchmarks.
 
 ### Key Features
 - Evaluate code generation models and agents directly from the terminal
-- Integrates with standard SWE benchmarks (SWE-bench verified, HumanEval, MBPP, APPS, LiveCodeBench)
+- Integrates with standard coding benchmarks including problem-based (HumanEval, MBPP, APPS) and repository-based (SWE-bench verified, LiveCodeBench)
 - Manage local test repositories and custom tasks
 - Generates detailed logs and a `stats.html` summary
 
@@ -24,28 +24,49 @@
 
 ```bash
 # Loads benchmark locally
-coder-eval prepare --benchmark mbpp
+coder-eval prepare --benchmark mbpp --path ./benchmarks/mbpp
+coder-eval prepare --benchmark swe-bench-verified --tasks 4 --path ./benchmarks/swe-bench-verified-task4
+coder-eval prepare --repo https://github.com/test-user/pytorch-code.git --path ./benchmarks/pytorch-bench
 
 # Evaluate generated output
-coder-eval evaluate --benchmark mbpp --samples sample.jsonl
-coder-eval evaluate --custom_tasks tasks.jsonl --samples sample.jsonl
+coder-eval evaluate --path ./benchmarks/mbpp --samples sample.jsonl
+coder-eval evaluate --path ./benchmarks/swe-bench-verified-task4 --samples sample.jsonl
+coder-eval evaluate --path ./benchmarks/custom-bench --samples sample.jsonl
 
 # List tasks within benchmark
-coder-eval list-tasks --benchmark mbpp
-
-# Load tasks within benchmark locally
-coder-eval prepare-tasks --benchmark mbpp --tasks=task-id-00
-
-# Load custom benchmark locally
-coder-eval prepare --benchmark swe-bench-verified --name swe-bench-easy
-coder-eval prepare --repo https://github.com/test-user/pytorch-code.git --name pytorch-bench
+coder-eval list-tasks --benchmark swe-bench-verified
+coder-eval list-tasks --path ./benchmarks/swe-bench-verified-task4
 ```
 
-## Custom Tasks
+### Options
 
-This tool supports custom local repositories and tasks to evaluate models or agents on specific codebases. Each task specifies a repository snapshot, target files or diffs, and test cases to verify correctness.
+```bash
+--benchmark      humaneval | mbpp | apps | swe-bench-verified | livecodebench
+--repo           https://www.github.com/test-user/sample-repo.git
+--path           ./benchmarks/custom-bench
+--tasks          task-id-00
+--samples        samples.jsonl
+--output-dir     ./results
+```
 
-`tasks.jsonl`
+## Sample Formats
+
+For problem-based benchmarks (MBPP, HumanEval, APPS), `--samples` must be a `.jsonl` file of generated completions:
+
+```
+{"task_id": 42, "completion": "def add(a, b): return a + b"}
+```
+
+For repository-based benchmarks (SWE-Bench, LiveCodeBench), `--samples` must be a `.jsonl` file or directory describing patches:
+
+```
+{"task_id": 4, "files": [{"path": "src/db.py", "patch": "@@ -22,7 +22,8 @@ ..."}]}
+```
+
+## Task Metadata
+
+For repository-based benchmarks, the `tasks.jsonl` metadata file is used to specify tasks in the benchmark to evaluate (e.g. `./benchmarks/custom-benchmark/tasks.jsonl`). Each task specifies a repository snapshot, target files or diffs, and test cases to verify correctness.
+
 ```json
 [
   {
@@ -59,27 +80,15 @@ This tool supports custom local repositories and tasks to evaluate models or age
 ]
 ```
 
-### Options
-
-```bash
---benchmark      humaneval | mbpp | apps | swe-bench-verified | livecodebench
---repo           https://www.github.com/test-user/sample-repo.git
---dir            ./benchmarks
---name           mbpp-only-arithmetic
---tasks          task-id-00
---samples        samples.jsonl
---output-dir     ./results
---custom_tasks   tasks.jsonl
-```
-
 ## Output
 
 Each evaluation run produces:
 
 ```
 /results/
-  ├── logs/task-id-00/results.json
-  └── stats.html
+  └── [timestamp]_[benchmark]/
+        ├── results.json                           # evaluation results
+        └── stats.html                             # summary report
 ```
 
 `stats.html` contains performance (test runtime) and correctness metrics (missing/correct/incorrect tasks).
