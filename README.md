@@ -6,7 +6,7 @@
 
 ## Overview
 
-**Coder Eval CLI** is a tool to assist with evaluating coding agents on software engineering benchmarks.
+**Coder Eval CLI** is a tool to assist with evaluating LLM coding agents on SWE benchmarks.
 
 ### Key Features
 - Evaluate code generation models and agents from the terminal

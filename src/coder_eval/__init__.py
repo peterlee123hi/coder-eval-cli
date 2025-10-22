@@ -2,7 +2,7 @@
 coder_eval
 ~~~~~~~~~~
 
-A CLI tool for evaluating models and agents on coding benchmarks
+A CLI tool for evaluating LLM coding agents on SWE benchmarks
 including HumanEval, MBPP, SWE-bench verified, and LiveCodeBench.
 """
 
