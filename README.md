@@ -9,7 +9,7 @@
 **Coder Eval CLI** is a tool to assist with evaluating coding agents on software engineering benchmarks.
 
 ### Key Features
-- Evaluate code generation models and agents directly from the terminal
+- Evaluate code generation models and agents from the terminal
 - Integrates with standard coding benchmarks including problem-based (HumanEval, MBPP, APPS) and repository-based (SWE-bench verified, LiveCodeBench)
 - Manage local test repositories and custom tasks
 - Generates detailed logs and a `stats.html` summary
@@ -49,7 +49,7 @@ coder-eval list-tasks --path ./benchmarks/swe-bench-verified-task4
 --output-dir     ./results
 ```
 
-## Sample Formats
+## Sample Format
 
 For problem-based benchmarks (MBPP, HumanEval, APPS), `--samples` must be a `.jsonl` file of generated completions:
 
