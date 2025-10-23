@@ -6,10 +6,10 @@
 
 ## Overview
 
-**Coder Eval CLI** is a tool to assist with evaluating LLM coding agents on SWE benchmarks.
+**Coder Eval CLI** is a tool to assist with testing LLM coding agents on SWE benchmarks.
 
 ### Key Features
-- Evaluate code generation models and agents from the terminal
+- Test code generation models and agents from the terminal
 - Integrates with standard coding benchmarks including problem-based (HumanEval, MBPP, APPS) and repository-based (SWE-bench verified, LiveCodeBench)
 - Manage local test repositories and custom tasks
 - Generates detailed logs and a `stats.html` summary
