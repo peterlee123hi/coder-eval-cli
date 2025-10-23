@@ -3,7 +3,7 @@ import typer
 app = typer.Typer(help="Prepare benchmark datasets or custom repositories.")
 
 
-@app.command()
+@app.callback(invoke_without_command=True)
 def prepare(
     benchmark: str = typer.Option(
         None, help="Name of benchmark, e.g. mbpp or swe-bench-verified."
@@ -13,4 +13,4 @@ def prepare(
     repo: str = typer.Option(None, help="Custom repository to clone as a benchmark."),
 ):
     """Download or initialize a benchmark dataset."""
-    typer.echo(f"Preparing {benchmark or repo} at {path} ...")
+    typer.echo(f"Preparing {benchmark or repo} at {path}")
