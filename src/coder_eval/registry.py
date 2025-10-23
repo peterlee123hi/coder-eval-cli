@@ -10,10 +10,10 @@ class BenchmarkConfig(TypedDict):
 
 
 BENCHMARK_CONFIG: dict[str, BenchmarkConfig] = {
-    "humaneval": BenchmarkConfig(
-        name="HumanEval",
-        fetch=humaneval.fetch_tasks,
-        columns=humaneval.table_columns,
-        row=humaneval.row_from_task,
-    ),
+    "humaneval": {
+        "name": "HumanEval",
+        "fetch": humaneval.fetch_tasks,
+        "columns": humaneval.table_columns,
+        "row": humaneval.row_from_task,
+    },
 }
