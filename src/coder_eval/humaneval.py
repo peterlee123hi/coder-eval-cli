@@ -1,8 +1,7 @@
-from typing import List, Dict
 from datasets import load_dataset
 
 
-def fetch_tasks() -> List[Dict]:
+def fetch_tasks() -> list[dict]:
     """Fetch and normalize tasks from Hugging Face."""
     dataset = load_dataset("openai_humaneval", split="test")
     tasks = []
@@ -22,9 +21,9 @@ def fetch_tasks() -> List[Dict]:
     return tasks
 
 
-def table_columns() -> List[str]:
+def table_columns() -> list[str]:
     return ["ID", "Prompt"]
 
 
-def row_from_task(task: Dict) -> List[str]:
+def row_from_task(task: dict) -> list[str]:
     return [task["id"], f"{task['prompt'][:160]}..."]

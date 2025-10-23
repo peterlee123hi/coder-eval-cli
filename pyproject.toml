@@ -35,3 +35,20 @@ dev = [
     "mypy (>=1.18.2,<2.0.0)",
     "pre-commit (>=4.3.0,<5.0.0)"
 ]
+
+[tool.poetry.requires-plugins]
+poethepoet = { version = "~0.35.0", extras = ["poetry_plugin"]}
+
+[tool.poe.tasks]
+install = "poetry install"
+lint = "ruff check src"
+format = "black src"
+test = "pytest -v"
+fix = [
+    { cmd = "ruff check src --fix" },
+    { cmd = "black src" }
+]
+typecheck = "mypy src"
+
+# Pass args with `poetry poe cli -- --list-tasks`
+cli = "coder-eval-cli"
