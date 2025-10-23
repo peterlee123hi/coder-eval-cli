@@ -17,8 +17,9 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
-@app.callback()
+@app.callback(invoke_without_command=True)
 def main(
+    ctx: typer.Context,
     version: bool = typer.Option(
         None,
         "--version",
@@ -28,7 +29,9 @@ def main(
     ),
 ):
     """coder-eval: Evaluating LLM coding agents on SWE benchmarks."""
-    pass
+    if not ctx.invoked_subcommand:
+        typer.echo(ctx.get_help())
+        raise typer.Exit()
 
 
 if __name__ == "__main__":

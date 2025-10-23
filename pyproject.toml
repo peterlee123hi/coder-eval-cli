@@ -16,6 +16,9 @@ dependencies = [
     "datasets (>=4.2.0,<5.0.0)"
 ]
 
+[project.scripts]
+coder-eval-cli = "coder_eval.cli:app"
+
 [tool.poetry]
 packages = [{ include = "coder_eval", from = "src" }]
 

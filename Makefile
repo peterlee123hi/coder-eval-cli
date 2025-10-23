@@ -16,3 +16,6 @@ fix:
 
 typecheck:
 	poetry run mypy src
+
+cli:
+	poetry run coder-eval-cli $(ARGS)
