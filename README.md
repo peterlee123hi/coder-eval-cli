@@ -70,7 +70,6 @@ For problem-based and repository-based benchmarks, the `tasks.jsonl` metadata fi
 [
   {
     "id": "mbpp_001",
-    "benchmark": "mbpp",
     "type": "problem",
     "prompt": "Write a Python function to compute factorial of a number.",
     "entry_file": "main.py",
@@ -81,8 +80,7 @@ For problem-based and repository-based benchmarks, the `tasks.jsonl` metadata fi
   },
   {
     "id": "myrepo_bugfix_42",
-    "benchmark": "custom-benchmark",
-    "type": "repository",
+    "type": "repo",
     "repo_path": "./repos/myrepo",
     "base_commit": "9f8e7d6",
     "patch_file": "./patches/fix_div_zero.diff",
