@@ -65,6 +65,12 @@ def list_tasks(
     page_size: int = typer.Option(20, help="Number of rows per page."),
 ) -> None:
     """List tasks for a benchmark."""
+    if benchmark is None:
+        typer.echo("Available benchmarks:")
+        for name in BENCHMARK_CONFIG:
+            typer.echo(f"- {name}")
+        raise typer.Exit()
+
     if benchmark not in BENCHMARK_CONFIG:
         typer.echo(f"Benchmark '{benchmark}' not supported.")
         raise typer.Exit()
