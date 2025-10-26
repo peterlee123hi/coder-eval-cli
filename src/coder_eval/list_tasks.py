@@ -15,7 +15,7 @@ def render_table(
     table = Table(
         title=f"{config['name']} tasks {start + 1}-{min(end, len(tasks))}",
         expand=True,
-        show_lines=False,
+        show_lines=True,
     )
     for col in config["columns"]():
         table.add_column(col, overflow="fold", no_wrap=False)
