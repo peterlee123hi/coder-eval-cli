@@ -40,7 +40,7 @@ coder-eval list-tasks --benchmark swe-bench-verified
 ### Options
 
 ```bash
---benchmark      humaneval | mbpp | apps | swe-bench-verified | livecodebench
+--benchmark      humaneval | mbpp | apps | swe-bench-verified
 --repo           https://www.github.com/test-user/sample-repo.git
 --path           ./benchmarks/custom-bench
 --tasks          task-id-00
