@@ -1,5 +1,6 @@
 from typing import Callable, Any, TypedDict
-from coder_eval import humaneval
+from coder_eval.datasets import humaneval
+from coder_eval.evaluators import humaneval_eval
 
 
 class BenchmarkConfig(TypedDict):
@@ -7,6 +8,7 @@ class BenchmarkConfig(TypedDict):
     fetch: Callable[[], list[dict[str, Any]]]
     columns: Callable[[], list[str]]
     row: Callable[[dict[str, Any]], list[str]]
+    evaluate: Callable[[list[dict[str, Any]], list[dict[str, Any]]], dict[str, Any]]
 
 
 BENCHMARK_CONFIG: dict[str, BenchmarkConfig] = {
@@ -15,5 +17,6 @@ BENCHMARK_CONFIG: dict[str, BenchmarkConfig] = {
         "fetch": humaneval.fetch_tasks,
         "columns": humaneval.table_columns,
         "row": humaneval.row_from_task,
+        "evaluate": humaneval_eval.evaluate_humaneval,
     },
 }

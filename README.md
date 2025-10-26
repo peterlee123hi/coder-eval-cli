@@ -45,7 +45,7 @@ coder-eval list-tasks --benchmark swe-bench-verified
 --path           ./benchmarks/custom-bench
 --tasks          task-id-00
 --samples        samples.jsonl
---output-dir     ./results
+--output-dir     ./benchmarks/custom-bench/results
 ```
 
 ## Sample Format
@@ -69,8 +69,8 @@ For problem-based and repository-based benchmarks, the `tasks.jsonl` metadata fi
 ```json
 [
   {
-    "id": "mbpp_001",
-    "type": "problem",
+    "task_id": "mbpp_001",
+    "benchmark": "mbpp",
     "prompt": "Write a Python function to compute factorial of a number.",
     "entry_file": "main.py",
     "test_file": "test_main.py",
@@ -79,8 +79,8 @@ For problem-based and repository-based benchmarks, the `tasks.jsonl` metadata fi
     "description": "Basic recursion problem."
   },
   {
-    "id": "myrepo_bugfix_42",
-    "type": "repo",
+    "task_id": "myrepo_bugfix_42",
+    "benchmark": "swe_bench_verified",
     "repo_path": "./repos/myrepo",
     "base_commit": "9f8e7d6",
     "patch_file": "./patches/fix_div_zero.diff",
@@ -95,10 +95,9 @@ For problem-based and repository-based benchmarks, the `tasks.jsonl` metadata fi
 Each evaluation run produces:
 
 ```
-/results/
+/benchmarks/custom-bench/results/
   └── [timestamp]_[benchmark]/
-        ├── results.json                           # evaluation results
-        └── stats.html                             # summary report
+        ├── results.jsonl                          # per-task outcomes
+        ├── stdout.log                             # console logs
+        └── summary.json                           # aggregated metrics
 ```
-
-`stats.html` contains performance (test runtime) and correctness metrics (missing/correct/incorrect tasks).
