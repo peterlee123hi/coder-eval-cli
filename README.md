@@ -24,7 +24,6 @@
 ```bash
 # Loads benchmark locally
 coder-eval prepare --benchmark mbpp --path ./benchmarks/mbpp
-coder-eval prepare --benchmark mbpp --tasks 4 --path ./benchmarks/mbpp-task4
 
 # Evaluate generated output
 coder-eval evaluate --path ./benchmarks/mbpp-easy-only --samples sample.jsonl
@@ -40,7 +39,6 @@ coder-eval list-tasks --benchmark mbpp --page-size 20
 ```bash
 --benchmark      humaneval | mbpp | apps
 --path           ./benchmarks/custom-bench
---tasks          task-id-00
 --samples        samples.jsonl
 --output-dir     ./benchmarks/custom-bench/results
 ```
@@ -50,7 +48,7 @@ coder-eval list-tasks --benchmark mbpp --page-size 20
 The results to evaluate (`--samples`) must be a `.jsonl` file of generated completions:
 
 ```
-{"task_id": 42, "completion": "def add(a, b): return a + b"}
+{"task_id": 42, "model_name": "gpt-4", "completion": "def add(a, b): return a + b"}
 ```
 
 ## Task Metadata

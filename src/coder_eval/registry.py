@@ -5,7 +5,7 @@ from coder_eval.evaluators import humaneval_eval
 
 class BenchmarkConfig(TypedDict):
     name: str
-    fetch: Callable[..., list[dict[str, Any]]]
+    fetch: Callable[[], list[dict[str, Any]]]
     columns: Callable[[], list[str]]
     row: Callable[[dict[str, Any]], list[str]]
     evaluate: Callable[[list[dict[str, Any]], list[dict[str, Any]]], dict[str, Any]]
