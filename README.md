@@ -9,10 +9,9 @@
 **Coder Eval CLI** is a tool to assist with testing LLM coding agents on SWE benchmarks.
 
 ### Key Features
-- Test code generation models and agents from the terminal
-- Integrates with standard coding benchmarks including problem-based (HumanEval, MBPP, APPS) and repository-based (SWE-bench verified, LiveCodeBench)
-- Manage local test repositories and custom tasks
-- Generates detailed logs and a `stats.html` summary
+- Prepare local datasets for code generation models and agents
+- Integrates with standard coding benchmarks including problem-based (HumanEval, MBPP, APPS) and repository-based (SWE-bench verified)
+- Generates detailed logs and evaluation summary
 
 ## Installation
 
@@ -26,22 +25,20 @@
 # Loads benchmark locally
 coder-eval prepare --benchmark mbpp --path ./benchmarks/mbpp
 coder-eval prepare --benchmark swe-bench-verified --tasks 4 --path ./benchmarks/swe-bench-verified-task4
-coder-eval prepare --repo https://github.com/test-user/pytorch-code.git --path ./benchmarks/pytorch-bench
 
 # Evaluate generated output
-coder-eval evaluate --path ./benchmarks/mbpp --samples sample.jsonl
+coder-eval evaluate --path ./benchmarks/mbpp-easy-only --samples sample.jsonl
 coder-eval evaluate --path ./benchmarks/swe-bench-verified-task4 --samples sample.jsonl
-coder-eval evaluate --path ./benchmarks/custom-bench --samples sample.jsonl
 
 # List tasks within benchmark
 coder-eval list-tasks --benchmark swe-bench-verified
+coder-eval list-tasks --benchmark mbpp --page-size 20
 ```
 
 ### Options
 
 ```bash
 --benchmark      humaneval | mbpp | apps | swe-bench-verified
---repo           https://www.github.com/test-user/sample-repo.git
 --path           ./benchmarks/custom-bench
 --tasks          task-id-00
 --samples        samples.jsonl
@@ -56,7 +53,7 @@ For problem-based benchmarks (MBPP, HumanEval, APPS), `--samples` must be a `.js
 {"task_id": 42, "completion": "def add(a, b): return a + b"}
 ```
 
-For repository-based benchmarks (SWE-Bench, LiveCodeBench), `--samples` must be a `.jsonl` file or directory describing patches:
+For repository-based benchmarks (SWE-bench verified), `--samples` must be a `.jsonl` file or directory describing patches:
 
 ```
 {"task_id": 4, "files": [{"path": "src/db.py", "patch": "@@ -22,7 +22,8 @@ ..."}]}

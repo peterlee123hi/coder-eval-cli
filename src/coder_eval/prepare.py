@@ -1,16 +1,27 @@
 import typer
+from typing import Any
+from coder_eval.registry import BenchmarkConfig
+from coder_eval.utils import get_benchmark_or_exit
 
-app = typer.Typer(help="Prepare benchmark datasets or custom repositories.")
+app = typer.Typer(help="Create local version of a benchmark dataset.")
 
 
 @app.callback(invoke_without_command=True)
 def prepare(
     benchmark: str = typer.Option(
-        None, help="Name of benchmark, e.g. mbpp or swe-bench-verified."
+        ..., help="Name of benchmark, e.g. mbpp or swe-bench-verified."
     ),
     path: str = typer.Option(..., help="Path to store benchmark data."),
-    tasks: int = typer.Option(None, help="Number of tasks to load (if applicable)."),
-    repo: str = typer.Option(None, help="Custom repository to clone as a benchmark."),
+    tasks: str | None = typer.Option(
+        None, help="Comma-separated list of task IDs to prepare."
+    ),
 ):
     """Download or initialize a benchmark dataset."""
-    typer.echo(f"Preparing {benchmark or repo} at {path}")
+    typer.echo(f"Preparing {benchmark} at {path}")
+    config: BenchmarkConfig = get_benchmark_or_exit(benchmark)
+    if tasks:
+        tasks_list: list[str] = [task.strip() for task in tasks.split(",")]
+
+    benchmark_tasks: list[dict[str, Any]] = config["fetch"](tasks_list)
+    config["prepare"](benchmark_tasks)
+    typer.echo(f"✅ Prepared {len(benchmark_tasks)} tasks from {benchmark}")

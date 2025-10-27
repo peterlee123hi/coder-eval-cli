@@ -25,6 +25,7 @@ def evaluate(
 
     # TODO: Read samples.jsonl from args
     # TODO: Read tasks.jsonl from path/tasks.jsonl
+    # TODO: Get config from get_benchmark_or_exit using benchmark in tasks.jsonl
     # TODO: Call evaluator from registry
     # TODO: By default, output results to path/results as specified by README (or output-dir if specified)
     # Alias is from tasks.jsonl and should match the folder name
