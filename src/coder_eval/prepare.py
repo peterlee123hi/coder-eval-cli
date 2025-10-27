@@ -8,9 +8,7 @@ app = typer.Typer(help="Create local version of a benchmark dataset.")
 
 @app.callback(invoke_without_command=True)
 def prepare(
-    benchmark: str = typer.Option(
-        ..., help="Name of benchmark, e.g. mbpp or swe-bench-verified."
-    ),
+    benchmark: str = typer.Option(..., help="Name of benchmark."),
     path: str = typer.Option(..., help="Path to store benchmark data."),
     tasks: str | None = typer.Option(
         None, help="Comma-separated list of task IDs to prepare."

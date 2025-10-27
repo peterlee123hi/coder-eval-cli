@@ -62,7 +62,7 @@ def paginate_tasks(tasks: list[dict], config: BenchmarkConfig, page_size: int) -
 def list_tasks(
     benchmark: str = typer.Option(
         ...,
-        help="Name of benchmark (mbpp, humaneval, apps, swe-bench-verified).",
+        help="Name of benchmark.",
     ),
     page_size: int = typer.Option(20, help="Number of rows per page."),
 ) -> None:

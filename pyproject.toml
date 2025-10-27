@@ -1,7 +1,7 @@
 [project]
 name = "coder-eval-cli"
 version = "0.1.0"
-description = "CLI for testing LLM coding agents on SWE benchmarks"
+description = "CLI for testing LLMs on coding benchmarks"
 authors = [
     {name = "Peter Lee", email = "peterlee123hi@cs.ucla.edu"},
     {name = "Ying Li", email = "yinglee@ucla.edu"}

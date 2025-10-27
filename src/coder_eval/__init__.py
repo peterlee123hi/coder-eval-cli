@@ -2,8 +2,7 @@
 coder_eval
 ~~~~~~~~~~
 
-A CLI tool for testing LLM coding agents on SWE benchmarks
-including HumanEval, MBPP, APPS, and SWE-bench verified.
+A CLI tool for testing LLMs on coding benchmarks including HumanEval, MBPP, and APPS.
 """
 
 __version__ = "0.1.0"

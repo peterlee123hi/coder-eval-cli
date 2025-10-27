@@ -6,11 +6,11 @@
 
 ## Overview
 
-**Coder Eval CLI** is a tool to assist with testing LLM coding agents on SWE benchmarks.
+**Coder Eval CLI** is a tool to assist with testing LLMs on coding benchmarks.
 
 ### Key Features
-- Prepare local datasets for code generation models and agents
-- Integrates with standard coding benchmarks including problem-based (HumanEval, MBPP, APPS) and repository-based (SWE-bench verified)
+- Prepare local datasets for code generation models
+- Integrates with standard coding benchmarks including HumanEval, MBPP, APPS
 - Generates detailed logs and evaluation summary
 
 ## Installation
@@ -24,21 +24,21 @@
 ```bash
 # Loads benchmark locally
 coder-eval prepare --benchmark mbpp --path ./benchmarks/mbpp
-coder-eval prepare --benchmark swe-bench-verified --tasks 4 --path ./benchmarks/swe-bench-verified-task4
+coder-eval prepare --benchmark mbpp --tasks 4 --path ./benchmarks/mbpp-task4
 
 # Evaluate generated output
 coder-eval evaluate --path ./benchmarks/mbpp-easy-only --samples sample.jsonl
-coder-eval evaluate --path ./benchmarks/swe-bench-verified-task4 --samples sample.jsonl
+coder-eval evaluate --path ./benchmarks/mbpp-task4 --samples sample.jsonl
 
 # List tasks within benchmark
-coder-eval list-tasks --benchmark swe-bench-verified
+coder-eval list-tasks --benchmark mbpp
 coder-eval list-tasks --benchmark mbpp --page-size 20
 ```
 
 ### Options
 
 ```bash
---benchmark      humaneval | mbpp | apps | swe-bench-verified
+--benchmark      humaneval | mbpp | apps
 --path           ./benchmarks/custom-bench
 --tasks          task-id-00
 --samples        samples.jsonl
@@ -47,21 +47,15 @@ coder-eval list-tasks --benchmark mbpp --page-size 20
 
 ## Sample Format
 
-For problem-based benchmarks (MBPP, HumanEval, APPS), `--samples` must be a `.jsonl` file of generated completions:
+The results to evaluate (`--samples`) must be a `.jsonl` file of generated completions:
 
 ```
 {"task_id": 42, "completion": "def add(a, b): return a + b"}
 ```
 
-For repository-based benchmarks (SWE-bench verified), `--samples` must be a `.jsonl` file or directory describing patches:
-
-```
-{"task_id": 4, "files": [{"path": "src/db.py", "patch": "@@ -22,7 +22,8 @@ ..."}]}
-```
-
 ## Task Metadata
 
-For problem-based and repository-based benchmarks, the `tasks.jsonl` metadata file is used to specify tasks in the benchmark to evaluate (e.g. `./benchmarks/custom-benchmark/tasks.jsonl`). Each task specifies a repository snapshot, target files or diffs, and test cases to verify correctness.
+The `tasks.jsonl` metadata file is used to specify tasks in the benchmark to evaluate (e.g. `./benchmarks/custom-benchmark/tasks.jsonl`).
 
 ```json
 [
@@ -73,17 +67,7 @@ For problem-based and repository-based benchmarks, the `tasks.jsonl` metadata fi
     "test_file": "test_main.py",
     "reference_solution": "def factorial(n): ...",
     "tests": ["assert factorial(5) == 120"],
-    "description": "Basic recursion problem."
   },
-  {
-    "task_id": "myrepo_bugfix_42",
-    "benchmark": "swe_bench_verified",
-    "repo_path": "./repos/myrepo",
-    "base_commit": "9f8e7d6",
-    "patch_file": "./patches/fix_div_zero.diff",
-    "test_file": "tests/test_division.py",
-    "description": "Fix division by zero error in divide()."
-  }
 ]
 ```
 
