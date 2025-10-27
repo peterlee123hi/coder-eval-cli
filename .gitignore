@@ -1,8 +1,5 @@
 tmp/
 logs/
-benchmarks/
-results/
-datasets/
 *.parquet
 *.csv
 *.jsonl
