@@ -1,7 +1,7 @@
 import typer
 from coder_eval import prepare, evaluate, list_tasks
 
-app = typer.Typer(help="Testing LLMs on coding benchmarks.")
+app = typer.Typer(help="Evaluating LLMs on coding benchmarks.")
 
 app.add_typer(prepare.app, name="prepare")
 app.add_typer(evaluate.app, name="evaluate")
@@ -28,7 +28,7 @@ def main(
         help="Show version and exit.",
     ),
 ):
-    """coder-eval: Testing LLMs on coding benchmarks."""
+    """coder-eval: Evaluating LLMs on coding benchmarks."""
     if not ctx.invoked_subcommand:
         typer.echo(ctx.get_help())
         raise typer.Exit()

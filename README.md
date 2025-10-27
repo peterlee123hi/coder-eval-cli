@@ -6,7 +6,7 @@
 
 ## Overview
 
-**Coder Eval CLI** is a tool to assist with testing LLMs on coding benchmarks.
+**Coder Eval CLI** is a tool to assist with evaluating LLMs on coding benchmarks.
 
 ### Key Features
 - Prepare local datasets for code generation models
