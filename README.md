@@ -4,8 +4,6 @@
 
 **Authors:** Peter Lee ([peterlee123hi@cs.ucla.edu](mailto:peterlee123hi@cs.ucla.edu)), Ying Li ([ying.li@ucla.edu](mailto:ying.li@ucla.edu))
 
-## Overview
-
 **Coder Eval CLI** is a tool to assist with evaluating LLMs on coding benchmarks.
 
 ### Key Features
