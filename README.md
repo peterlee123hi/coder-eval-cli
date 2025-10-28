@@ -7,7 +7,7 @@
 **Coder Eval CLI** is a tool to assist with evaluating LLMs on coding benchmarks.
 
 ### Key Features
-- Prepare local benchmarks for code generation models
+- Prepare benchmarks locally for code generation models
 - Integrates with standard coding benchmarks including HumanEval, MBPP, APPS
 - Generates detailed logs and evaluation summary
 
