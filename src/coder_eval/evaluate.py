@@ -7,9 +7,9 @@ app = typer.Typer(help="Evaluate generated model outputs against benchmarks.")
 
 def create_results_dir(path: Path, output_dir: Path | None, name: str) -> Path:
     """Create a results directory for the evaluation."""
-    results_root = output_dir or (path / "results")
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    outdir = results_root / f"{timestamp}_{name}"
+    results_root: Path = output_dir or (path / "results")
+    timestamp: str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    outdir: Path = results_root / f"{timestamp}_{name}"
     outdir.mkdir(parents=True, exist_ok=True)
     return outdir
 
