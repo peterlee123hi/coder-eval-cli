@@ -24,8 +24,7 @@
 coder-eval prepare --benchmark mbpp --path ./benchmarks/mbpp
 
 # Evaluate generated output
-coder-eval evaluate --path ./benchmarks/mbpp-easy-only --samples sample.jsonl
-coder-eval evaluate --path ./benchmarks/mbpp-task4 --samples sample.jsonl
+coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
 
 # List tasks within benchmark
 coder-eval list-tasks --benchmark mbpp
