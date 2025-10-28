@@ -21,7 +21,7 @@
 
 ```bash
 # Loads benchmark locally
-coder-eval prepare --benchmark mbpp --path ./benchmarks/mbpp
+coder-eval prepare --benchmark mbpp --path ./benchmarks/custom-mbpp
 
 # Evaluate generated output
 coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
