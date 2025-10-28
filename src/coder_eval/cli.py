@@ -1,11 +1,10 @@
 import typer
-from coder_eval import prepare, evaluate, list_tasks
+from coder_eval import prepare, evaluate
 
 app = typer.Typer(help="Evaluating LLMs on coding benchmarks.")
 
 app.add_typer(prepare.app, name="prepare")
 app.add_typer(evaluate.app, name="evaluate")
-app.add_typer(list_tasks.app, name="list-tasks")
 
 
 def version_callback(value: bool):

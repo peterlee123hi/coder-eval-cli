@@ -25,10 +25,6 @@ coder-eval prepare --benchmark mbpp --path ./benchmarks/custom-mbpp
 
 # Evaluate generated output
 coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
-
-# List tasks within benchmark
-coder-eval list-tasks --benchmark mbpp
-coder-eval list-tasks --benchmark mbpp --page-size 20
 ```
 
 ### Options
