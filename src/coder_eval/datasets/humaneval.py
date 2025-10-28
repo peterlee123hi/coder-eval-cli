@@ -20,14 +20,6 @@ def fetch_tasks() -> list[dict]:
     return tasks
 
 
-def table_columns() -> list[str]:
-    return ["ID", "Prompt"]
-
-
-def row_from_task(task: dict) -> list[str]:
-    return [task["id"], f"{task['prompt'][:160]}..."]
-
-
 def prepare_tasks(tasks: list[dict]) -> None:
     """Prepare tasks for local evaluation."""
     pass
