@@ -41,6 +41,14 @@ coder-eval list-tasks --benchmark mbpp --page-size 20
 --output-dir     ./benchmarks/custom-bench/results
 ```
 
+## Supported Benchmarks
+
+| Benchmark | Dataset Source | Description | Revision Pin |
+|------------|----------------|--------------|---------------|
+| **HumanEval+** | [evalplus/humanevalplus](https://huggingface.co/datasets/evalplus/humanevalplus) | 164 short Python function synthesis tasks with extended test coverage. | `d32357c` |
+| **MBPP+** | [evalplus/mbppplus](https://huggingface.co/datasets/evalplus/mbppplus) | 500 beginner-level programming problems with multiple test cases. | `b2d74c9` |
+| **APPS** | [codeparrot/apps](https://huggingface.co/datasets/codeparrot/apps) | 10k real-world programming questions across varying difficulty levels. | `21e74dd` |
+
 ## Sample Format
 
 The results to evaluate (`--samples`) must be a `.jsonl` file of generated completions:
