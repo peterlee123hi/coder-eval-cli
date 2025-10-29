@@ -1,6 +1,5 @@
 import typer
-from typing import Any
-from coder_eval.registry import BenchmarkConfig
+from coder_eval.types import Task, BenchmarkConfig
 from coder_eval.utils import get_benchmark_or_exit
 
 app = typer.Typer(help="Create local version of a benchmark dataset.")
@@ -15,7 +14,7 @@ def prepare(
     typer.echo(f"Preparing {benchmark} at {path}")
     config: BenchmarkConfig = get_benchmark_or_exit(benchmark)
 
-    tasks: list[dict[str, Any]] = config["fetch"]()
+    tasks: list[Task] = config["fetch"]()
     typer.echo(f"✅ Prepared {len(tasks)} tasks from {benchmark}")
 
     # TODO: Write tasks.jsonl
