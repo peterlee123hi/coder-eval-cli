@@ -38,7 +38,7 @@ coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
 
 ## Supported Benchmarks
 
-| Benchmark | Dataset Source | Description | Revision Pin |
+| Benchmark | Dataset Source | Description | Revision |
 |------------|----------------|--------------|---------------|
 | **HumanEval+** | [openai/openai_humaneval](https://huggingface.co/datasets/evalplus/humanevalplus) | 164 short Python function synthesis tasks. | `7dce605` |
 | **MBPP** | [Muennighoff/mbpp](https://huggingface.co/datasets/evalplus/mbppplus) | 500 mostly beginner Python programming problems. | `d81b829` |

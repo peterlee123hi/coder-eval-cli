@@ -12,14 +12,9 @@ def fetch_tasks() -> list[dict]:
                 "benchmark": "humaneval",
                 "prompt": row["prompt"],
                 "entry_point": row.get("entry_point"),
-                "reference": row.get("canonical_solution"),
-                "test_code": row.get("test"),
+                "solution": row.get("canonical_solution"),
+                "tests": [row.get("test")],
             }
         )
 
     return tasks
-
-
-def prepare_tasks(tasks: list[dict]) -> None:
-    """Prepare tasks for local evaluation."""
-    pass

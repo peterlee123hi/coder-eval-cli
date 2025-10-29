@@ -16,8 +16,6 @@ def prepare(
     config: BenchmarkConfig = get_benchmark_or_exit(benchmark)
 
     tasks: list[dict[str, Any]] = config["fetch"]()
-    config["prepare"](tasks)
     typer.echo(f"✅ Prepared {len(tasks)} tasks from {benchmark}")
 
-    # TODO: Write dockerfile (with task-level folders with artifacts)
     # TODO: Write tasks.jsonl
