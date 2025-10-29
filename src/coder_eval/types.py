@@ -6,10 +6,11 @@ class Task(TypedDict):
     benchmark: str
     prompt: str
     entry_point: str
-    solution: str
+    reference_solution: str
     tests: list[str]
 
 
 class BenchmarkConfig(TypedDict):
     name: str
     fetch: Callable[[], list[Task]]
+    evaluate: Callable[[Task, dict], dict]

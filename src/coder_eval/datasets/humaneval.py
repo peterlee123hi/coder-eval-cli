@@ -12,9 +12,9 @@ def fetch_tasks() -> list[Task]:
                 "id": row["task_id"],
                 "benchmark": "humaneval",
                 "prompt": row["prompt"],
-                "entry_point": row.get("entry_point"),
-                "solution": row.get("canonical_solution"),
-                "tests": [row.get("test")],
+                "entry_point": row["entry_point"],
+                "reference_solution": row["canonical_solution"],
+                "tests": [row["test"]],
             }
         )
 
