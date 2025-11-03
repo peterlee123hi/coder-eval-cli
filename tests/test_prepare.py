@@ -60,10 +60,25 @@ def test_prepare_successful(tmp_path: Path, capsys) -> None:
             task = json.loads(line.strip())
             assert task == mock_tasks[i]
 
+    # Verify generate_samples.py was created
+    generate_samples_file = benchmark_path / "generate_samples.py"
+    assert generate_samples_file.exists()
+
+    # Verify generate_samples.py content
+    with open(generate_samples_file) as f:
+        content = f.read()
+        assert "import json" in content
+        assert "tasks.jsonl" in content
+        assert "samples.jsonl" in content
+        assert "task_id" in content
+        assert "model_name" in content
+        assert "completions" in content
+
     # Verify output messages
     captured = capsys.readouterr()
     assert "Preparing" in captured.out
     assert "tasks.jsonl" in captured.out
+    assert "generate_samples.py" in captured.out
 
     # Verify fetch was called
     mock_fetch.assert_called_once()
