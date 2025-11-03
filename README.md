@@ -44,12 +44,18 @@ coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
 | **MBPP** | [Muennighoff/mbpp](https://huggingface.co/datasets/evalplus/mbppplus) | 500 mostly beginner Python programming problems. | `d81b829` |
 | **APPS** | [codeparrot/apps](https://huggingface.co/datasets/codeparrot/apps) | 10k real-world programming questions across varying difficulty levels. | `21e74dd` |
 
-## Sample Format
+## Samples Format
 
-The results to evaluate (`--samples`) must be a `.jsonl` file of generated completions:
+The results to evaluate (`--samples`) must be a `.jsonl` file of generated completions.
 
-```
-{"task_id": 42, "model_name": "gpt-4", "completion": "def add(a, b): return a + b"}
+```json
+[
+  {
+    "task_id": 42,
+    "model_name": "gpt-4",
+    "completions": ["def add(a, b): return a + b"],
+  }
+]
 ```
 
 ## Task Metadata
