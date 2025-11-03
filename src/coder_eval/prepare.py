@@ -13,11 +13,12 @@ def prepare(
     path: str = typer.Option(..., help="Path to store benchmark data."),
 ):
     """Download or initialize a benchmark dataset."""
-    typer.echo(f"Preparing {benchmark} at {path}")
     config: BenchmarkConfig = get_benchmark_or_exit(benchmark)
+    benchmark_name: str = config["name"]
+    typer.echo(f"Preparing {benchmark_name} at {path}")
 
     tasks: list[Task] = config["fetch"]()
-    typer.echo(f"✅ Prepared {len(tasks)} tasks from {benchmark}")
+    typer.echo(f"✅ Prepared {len(tasks)} tasks from {benchmark_name}")
 
     # Write tasks.jsonl to path
     base_dir: Path = Path(path)
