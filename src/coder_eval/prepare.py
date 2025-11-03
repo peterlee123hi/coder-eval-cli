@@ -21,6 +21,7 @@ def prepare(
 
     # Write tasks.jsonl to path
     base_dir: Path = Path(path)
+    base_dir.mkdir(parents=True, exist_ok=True)
     with open(base_dir / "tasks.jsonl", "w") as f:
         for task in tasks:
             f.write(json.dumps(task) + "\n")

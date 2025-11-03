@@ -49,13 +49,11 @@ coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
 The results to evaluate (`--samples`) must be a `.jsonl` file of generated completions.
 
 ```json
-[
-  {
-    "task_id": 42,
-    "model_name": "gpt-4",
-    "completions": ["def add(a, b): return a + b"],
-  }
-]
+{
+  "task_id": 42,
+  "model_name": "gpt-4",
+  "completions": ["def add(a, b): return a + b"],
+}
 ```
 
 ## Task Metadata
@@ -63,16 +61,14 @@ The results to evaluate (`--samples`) must be a `.jsonl` file of generated compl
 The `tasks.jsonl` metadata file is used to specify tasks in the benchmark to evaluate (e.g. `./benchmarks/custom-benchmark/tasks.jsonl`).
 
 ```json
-[
-  {
-    "task_id": "mbpp_001",
-    "benchmark": "mbpp",
-    "prompt": "Write a Python function to compute factorial of a number.",
-    "entry_point": "factorial",
-    "reference_solution": "def factorial(n): ...",
-    "tests": ["assert factorial(5) == 120"],
-  },
-]
+{
+  "task_id": "mbpp_001",
+  "benchmark": "mbpp",
+  "prompt": "Write a Python function to compute factorial of a number.",
+  "entry_point": "factorial",
+  "reference_solution": "def factorial(n): ...",
+  "tests": ["assert factorial(5) == 120"],
+}
 ```
 
 ## Output
