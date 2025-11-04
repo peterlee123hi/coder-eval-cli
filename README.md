@@ -8,7 +8,7 @@
 
 ### Key Features
 - Prepare benchmarks locally for code generation models
-- Integrates with standard coding benchmarks including HumanEval, MBPP, APPS
+- Integrates with standard coding benchmarks including HumanEval and MBPP
 - Generates detailed logs and evaluation summary
 
 ## Installation
@@ -30,7 +30,7 @@ coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
 ### Options
 
 ```bash
---benchmark      humaneval | mbpp | apps
+--benchmark      humaneval | mbpp
 --path           ./benchmarks/custom-bench
 --samples        samples.jsonl
 --output-dir     ./benchmarks/custom-bench/results
@@ -42,7 +42,6 @@ coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
 |------------|----------------|--------------|---------------|
 | **HumanEval** | [openai/openai_humaneval](https://huggingface.co/datasets/evalplus/humanevalplus) | 164 short Python function synthesis tasks. | `7dce605` |
 | **MBPP** | [Muennighoff/mbpp](https://huggingface.co/datasets/evalplus/mbppplus) | 500 mostly beginner Python programming problems. | `d81b829` |
-| **APPS** | [codeparrot/apps](https://huggingface.co/datasets/codeparrot/apps) | 10k real-world programming questions across varying difficulty levels. | `21e74dd` |
 
 ## Samples Format
 
