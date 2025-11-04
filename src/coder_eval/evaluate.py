@@ -80,7 +80,7 @@ def evaluate(
         processed_task_ids.add(sample["task_id"])
         if sample["task_id"] not in tasks_data:
             typer.echo(
-                f"⚠️ Task ID '{sample['task_id']}' not found for sample {sample_idx}"
+                f"⚠️ Task ID '{sample['task_id']}' not found for sample {sample_idx}, skipping"
             )
             continue
         result: dict = benchmark_config["evaluate"](
