@@ -18,21 +18,25 @@ with open(tasks_file) as f:
     tasks = [json.loads(line) for line in f]
 
 # Write samples.jsonl
-if tasks:
-    first_task = tasks[0]
-    sample = {
-        "task_id": first_task["id"],
-        "model_name": "gpt-4",
-        "completions": [first_task["reference_solution"]],
-    }
-
-    samples_file = Path("samples.jsonl")
-    with open(samples_file, "w") as f:
+samples_file = Path("samples.jsonl")
+with open(samples_file, "w") as f:
+    for task_idx in range(3):
+        task = tasks[task_idx]
+        sample = {
+            "task_id": task["id"],
+            "model_name": "test-model",
+            "completions": [task["reference_solution"]],
+        }
         f.write(json.dumps(sample) + "\\n")
 
-    print("Generated samples.jsonl")
-else:
-    print("No tasks found in tasks.jsonl")
+    sample = {
+        "task_id": tasks[4]["id"],
+        "model_name": "test-model",
+        "completions": [""],
+    }
+    f.write(json.dumps(sample) + "\\n")
+
+print("Generated samples.jsonl")
 """
 
 
@@ -60,4 +64,3 @@ def prepare(
     # Write generate_samples.py template to path
     with open(base_dir / "generate_samples.py", "w") as f:
         f.write(GENERATE_SAMPLES_TEMPLATE)
-    typer.echo(f"✅ Wrote generate_samples.py to {base_dir / 'generate_samples.py'}")

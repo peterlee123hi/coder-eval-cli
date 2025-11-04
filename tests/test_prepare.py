@@ -78,7 +78,6 @@ def test_prepare_successful(tmp_path: Path, capsys) -> None:
     captured = capsys.readouterr()
     assert "Preparing" in captured.out
     assert "tasks.jsonl" in captured.out
-    assert "generate_samples.py" in captured.out
 
     # Verify fetch was called
     mock_fetch.assert_called_once()
