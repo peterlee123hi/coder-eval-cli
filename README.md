@@ -46,7 +46,7 @@ coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
 
 ## Samples Format
 
-The results to evaluate (`--samples`) must be a `.jsonl` file of generated completions.
+The `samples.jsonl` file should contain the results to evaluate and have a list of generated completions for each task.
 
 ```json
 {
