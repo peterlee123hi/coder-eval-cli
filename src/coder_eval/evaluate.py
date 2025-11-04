@@ -3,7 +3,7 @@ import typer
 from pathlib import Path
 from datetime import datetime
 from coder_eval.utils import get_benchmark_or_exit
-from coder_eval.types import Task, BenchmarkConfig
+from coder_eval.types import Task, BenchmarkConfig, Sample, SampleResult
 
 app = typer.Typer(help="Evaluate generated model outputs against benchmarks.")
 
@@ -35,11 +35,13 @@ def read_tasks(path: Path) -> dict[str, Task]:
     return tasks_data
 
 
-def read_samples(path: Path) -> list[dict]:
+def read_samples(path: Path) -> list[Sample]:
     """Read samples.jsonl from path."""
     try:
         with path.open("r", encoding="utf-8") as f:
-            samples_data: list[dict] = [json.loads(line) for line in f if line.strip()]
+            samples_data: list[Sample] = [
+                json.loads(line) for line in f if line.strip()
+            ]
     except FileNotFoundError as exc:
         raise typer.BadParameter(f"Samples file not found: {path}") from exc
     if not samples_data:
@@ -66,10 +68,10 @@ def evaluate(
 
     # Read samples.jsonl
     samples_path: Path = Path(samples)
-    samples_data: list[dict] = read_samples(samples_path)
+    samples_data: list[Sample] = read_samples(samples_path)
 
     # Call evaluator from registry
-    results: list[dict] = []
+    results: list[SampleResult] = []
     processed_task_ids: set[str] = set()
     for sample_idx, sample in enumerate(samples_data):
         if sample["task_id"] in processed_task_ids:
@@ -83,7 +85,7 @@ def evaluate(
                 f"⚠️ Task ID '{sample['task_id']}' not found for sample {sample_idx}, skipping"
             )
             continue
-        result: dict = benchmark_config["evaluate"](
+        result: SampleResult = benchmark_config["evaluate"](
             tasks_data[sample["task_id"]], sample
         )
         results.append(result)
