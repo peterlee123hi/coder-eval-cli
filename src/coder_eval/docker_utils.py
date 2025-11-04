@@ -4,7 +4,7 @@ import os
 import shutil
 import time
 from pathlib import Path
-from coder_eval.types import SampleResult
+from coder_eval.types import ExecResult
 
 DOCKER_IMAGE = "coder-eval-python"
 DOCKERFILE_PATH = Path(__file__).parent / "docker" / "Dockerfile"
@@ -43,16 +43,15 @@ def ensure_docker_image() -> None:
         print(f"✅ Successfully built '{DOCKER_IMAGE}'")
 
 
-def run_script(script: str, model_name: str, task_id: str) -> SampleResult:
+def run_script(script: str) -> ExecResult:
     """Run arbitrary Python code safely inside a Docker container."""
-    temp_dir = tempfile.mkdtemp(prefix=f"{task_id}_")
+    temp_dir = tempfile.mkdtemp(prefix="coder_eval_")
     script_path = os.path.join(temp_dir, "main.py")
 
-    # Write the script to the temp directory
+    # Write the script to a temporary file
     with open(script_path, "w") as f:
         f.write(script)
 
-    # Prepare the Docker command
     cmd = [
         "docker",
         "run",
@@ -79,54 +78,31 @@ def run_script(script: str, model_name: str, task_id: str) -> SampleResult:
     start_time = time.time()
 
     try:
-        proc = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=10,
-        )
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
         elapsed = time.time() - start_time
 
-        stdout = proc.stdout.strip()
-        stderr = proc.stderr.strip()
-        returncode = proc.returncode
-
-        num_passed = 1 if returncode == 0 else 0
-        num_failed = 0 if returncode == 0 else 1
-
-        result = SampleResult(
-            task_id=task_id,
-            model_name=model_name,
-            passed=(returncode == 0),
-            num_passed=num_passed,
-            num_failed=num_failed,
-            stdout=stdout,
-            stderr=stderr,
-            exec_time=elapsed,
-        )
+        result: ExecResult = {
+            "stdout": proc.stdout.strip(),
+            "stderr": proc.stderr.strip(),
+            "returncode": proc.returncode,
+            "exec_time": elapsed,
+        }
 
     except subprocess.TimeoutExpired:
-        result = SampleResult(
-            task_id=task_id,
-            model_name=model_name,
-            passed=False,
-            num_passed=0,
-            num_failed=0,
+        result = ExecResult(
             stdout="",
             stderr="TimeoutExpired",
-            error="timeout",
+            returncode=-1,
             exec_time=10.0,
+            error="timeout",
         )
 
     except Exception as e:
-        result = SampleResult(
-            task_id=task_id,
-            model_name=model_name,
-            passed=False,
-            num_passed=0,
-            num_failed=0,
+        result = ExecResult(
             stdout="",
             stderr=str(e),
+            returncode=-1,
+            exec_time=0.0,
             error="exception",
         )
 

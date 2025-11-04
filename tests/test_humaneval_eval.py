@@ -1,6 +1,6 @@
 from unittest.mock import patch
 from coder_eval.evaluators.humaneval_eval import evaluate
-from coder_eval.types import Task, Sample, SampleResult
+from coder_eval.types import Task, Sample, ExecResult
 
 
 def test_evaluate_single_completion_passes() -> None:
@@ -19,14 +19,10 @@ def test_evaluate_single_completion_passes() -> None:
         "completions": ["    return a + b"],
     }
 
-    mock_result: SampleResult = {
-        "task_id": "test_task_1",
-        "model_name": "test-model",
-        "passed": True,
-        "num_passed": 1,
-        "num_failed": 0,
+    mock_exec_result: ExecResult = {
         "stdout": "",
-        "stderr": None,
+        "stderr": "",
+        "returncode": 0,
         "exec_time": 0.1,
     }
 
@@ -35,7 +31,8 @@ def test_evaluate_single_completion_passes() -> None:
             "coder_eval.evaluators.humaneval_eval.ensure_docker_image"
         ) as mock_ensure,
         patch(
-            "coder_eval.evaluators.humaneval_eval.run_script", return_value=mock_result
+            "coder_eval.evaluators.humaneval_eval.run_script",
+            return_value=mock_exec_result,
         ) as mock_run,
     ):
         result = evaluate(task, sample)
@@ -45,9 +42,8 @@ def test_evaluate_single_completion_passes() -> None:
 
     # Verify the script was built correctly
     call_args = mock_run.call_args
-    assert call_args[1]["model_name"] == "test-model"
-    assert call_args[1]["task_id"] == "test_task_1"
-    script = call_args[1]["script"]
+    assert len(call_args[0]) == 1  # Only one positional argument (script)
+    script = call_args[0][0]
     assert "def add(a, b):" in script
     assert "return a + b" in script
     assert "assert add(1, 2) == 3" in script
@@ -77,14 +73,10 @@ def test_evaluate_single_completion_fails() -> None:
         "completions": ["    return a + b"],
     }
 
-    mock_result: SampleResult = {
-        "task_id": "test_task_2",
-        "model_name": "test-model",
-        "passed": False,
-        "num_passed": 0,
-        "num_failed": 1,
+    mock_exec_result: ExecResult = {
         "stdout": "",
         "stderr": "AssertionError",
+        "returncode": 1,
         "exec_time": 0.1,
     }
 
@@ -93,7 +85,8 @@ def test_evaluate_single_completion_fails() -> None:
             "coder_eval.evaluators.humaneval_eval.ensure_docker_image"
         ) as mock_ensure,
         patch(
-            "coder_eval.evaluators.humaneval_eval.run_script", return_value=mock_result
+            "coder_eval.evaluators.humaneval_eval.run_script",
+            return_value=mock_exec_result,
         ) as mock_run,
     ):
         result = evaluate(task, sample)
@@ -130,35 +123,23 @@ def test_evaluate_multiple_completions_first_passes() -> None:
     }
 
     # First call passes, subsequent calls fail
-    mock_results = [
+    mock_exec_results = [
         {
-            "task_id": "test_task_3",
-            "model_name": "test-model",
-            "passed": True,
-            "num_passed": 1,
-            "num_failed": 0,
             "stdout": "",
-            "stderr": None,
+            "stderr": "",
+            "returncode": 0,
             "exec_time": 0.1,
         },
         {
-            "task_id": "test_task_3",
-            "model_name": "test-model",
-            "passed": False,
-            "num_passed": 0,
-            "num_failed": 1,
             "stdout": "",
             "stderr": "AssertionError",
+            "returncode": 1,
             "exec_time": 0.1,
         },
         {
-            "task_id": "test_task_3",
-            "model_name": "test-model",
-            "passed": False,
-            "num_passed": 0,
-            "num_failed": 1,
             "stdout": "",
             "stderr": "AssertionError",
+            "returncode": 1,
             "exec_time": 0.1,
         },
     ]
@@ -167,7 +148,7 @@ def test_evaluate_multiple_completions_first_passes() -> None:
         patch("coder_eval.evaluators.humaneval_eval.ensure_docker_image"),
         patch(
             "coder_eval.evaluators.humaneval_eval.run_script",
-            side_effect=mock_results,
+            side_effect=mock_exec_results,
         ) as mock_run,
     ):
         result = evaluate(task, sample)
@@ -203,35 +184,23 @@ def test_evaluate_multiple_completions_all_fail() -> None:
         ],
     }
 
-    mock_results = [
+    mock_exec_results = [
         {
-            "task_id": "test_task_4",
-            "model_name": "test-model",
-            "passed": False,
-            "num_passed": 0,
-            "num_failed": 1,
             "stdout": "",
             "stderr": "AssertionError",
+            "returncode": 1,
             "exec_time": 0.1,
         },
         {
-            "task_id": "test_task_4",
-            "model_name": "test-model",
-            "passed": False,
-            "num_passed": 0,
-            "num_failed": 1,
             "stdout": "",
             "stderr": "AssertionError",
+            "returncode": 1,
             "exec_time": 0.1,
         },
         {
-            "task_id": "test_task_4",
-            "model_name": "test-model",
-            "passed": False,
-            "num_passed": 0,
-            "num_failed": 1,
             "stdout": "",
             "stderr": "AssertionError",
+            "returncode": 1,
             "exec_time": 0.1,
         },
     ]
@@ -240,7 +209,7 @@ def test_evaluate_multiple_completions_all_fail() -> None:
         patch("coder_eval.evaluators.humaneval_eval.ensure_docker_image"),
         patch(
             "coder_eval.evaluators.humaneval_eval.run_script",
-            side_effect=mock_results,
+            side_effect=mock_exec_results,
         ) as mock_run,
     ):
         result = evaluate(task, sample)
@@ -272,27 +241,24 @@ def test_evaluate_script_building() -> None:
         "completions": ["return x * 2\n"],
     }
 
-    mock_result: SampleResult = {
-        "task_id": "test_task_5",
-        "model_name": "test-model",
-        "passed": True,
-        "num_passed": 1,
-        "num_failed": 0,
+    mock_exec_result: ExecResult = {
         "stdout": "",
-        "stderr": None,
+        "stderr": "",
+        "returncode": 0,
         "exec_time": 0.1,
     }
 
     with (
         patch("coder_eval.evaluators.humaneval_eval.ensure_docker_image"),
         patch(
-            "coder_eval.evaluators.humaneval_eval.run_script", return_value=mock_result
+            "coder_eval.evaluators.humaneval_eval.run_script",
+            return_value=mock_exec_result,
         ) as mock_run,
     ):
         evaluate(task, sample)
 
     call_args = mock_run.call_args
-    script = call_args[1]["script"]
+    script = call_args[0][0]
 
     # Verify script components
     assert script.startswith("def func(x):")

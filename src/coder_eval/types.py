@@ -1,4 +1,4 @@
-from typing import TypedDict, Callable, Optional
+from typing import TypedDict, Callable
 
 
 class Task(TypedDict):
@@ -25,10 +25,18 @@ class SampleResult(TypedDict, total=False):
     num_passed: int
     num_failed: int
 
-    stdout: Optional[str]
-    stderr: Optional[str]
-    exec_time: Optional[float]
-    error: Optional[str]
+    stdout: str
+    stderr: str
+    exec_time: float
+    error: str
+
+
+class ExecResult(TypedDict, total=False):
+    stdout: str
+    stderr: str
+    returncode: int
+    exec_time: float
+    error: str
 
 
 class BenchmarkConfig(TypedDict):
