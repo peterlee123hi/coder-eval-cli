@@ -12,6 +12,23 @@ GENERATE_SAMPLES_TEMPLATE: Final[
 ] = """import json
 from pathlib import Path
 
+
+def get_samples(tasks):
+    samples = []
+    for task in tasks[:3]:
+        samples.append({
+            "task_id": task["id"],
+            "model_name": "test-model",
+            "completions": [task["reference_solution"]],
+        })
+    samples.append({
+        "task_id": tasks[4]["id"],
+        "model_name": "test-model",
+        "completions": [""],
+    })
+    return samples
+
+
 # Read tasks.jsonl
 tasks_file = Path("tasks.jsonl")
 with open(tasks_file) as f:
@@ -20,21 +37,9 @@ with open(tasks_file) as f:
 # Write samples.jsonl
 samples_file = Path("samples.jsonl")
 with open(samples_file, "w") as f:
-    for task_idx in range(3):
-        task = tasks[task_idx]
-        sample = {
-            "task_id": task["id"],
-            "model_name": "test-model",
-            "completions": [task["reference_solution"]],
-        }
+    samples = get_samples(tasks)
+    for sample in samples:
         f.write(json.dumps(sample) + "\\n")
-
-    sample = {
-        "task_id": tasks[4]["id"],
-        "model_name": "test-model",
-        "completions": [""],
-    }
-    f.write(json.dumps(sample) + "\\n")
 
 print("Generated samples.jsonl")
 """
