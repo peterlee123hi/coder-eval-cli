@@ -22,7 +22,7 @@ def get_samples(tasks):
             "completions": [task["reference_solution"]],
         })
     samples.append({
-        "task_id": tasks[4]["id"],
+        "task_id": tasks[3]["id"],
         "model_name": "test-model",
         "completions": [""],
     })

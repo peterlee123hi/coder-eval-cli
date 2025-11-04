@@ -61,6 +61,7 @@ def evaluate(
     # Read tasks.jsonl from path
     tasks_path: Path = Path(path) / "tasks.jsonl"
     tasks_data: dict[str, Task] = read_tasks(tasks_path)
+    typer.echo(f"✅ Read {len(tasks_data)} tasks from {tasks_path}")
 
     # Get benchmark config
     benchmark_name: str = next(iter(tasks_data.values()))["benchmark"]
@@ -69,6 +70,7 @@ def evaluate(
     # Read samples.jsonl
     samples_path: Path = Path(samples)
     samples_data: list[Sample] = read_samples(samples_path)
+    typer.echo(f"✅ Read {len(samples_data)} samples from {samples_path}")
 
     # Call evaluator from registry
     results: list[SampleResult] = []
