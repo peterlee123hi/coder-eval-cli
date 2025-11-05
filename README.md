@@ -77,7 +77,5 @@ Each evaluation run produces:
 ```
 /benchmarks/custom-bench/results/
   └── [timestamp]_[benchmark]/
-        ├── results.jsonl                          # per-task outcomes
-        ├── stdout.log                             # console logs
-        └── summary.json                           # aggregated metrics
+        └── results.jsonl                          # detailed per completion logs
 ```
