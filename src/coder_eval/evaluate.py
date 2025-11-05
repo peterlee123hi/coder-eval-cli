@@ -107,7 +107,7 @@ def print_results(
         max_time = max(all_exec_times)
         print("\n⏱️  Avg exec time: {:.2f}s (max {:.2f}s)".format(avg_time, max_time))
 
-    print("────────────────────────────────────────────\n")
+    print("────────────────────────────────────────────")
 
 
 @app.callback(invoke_without_command=True)
