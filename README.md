@@ -81,5 +81,5 @@ Each evaluation run produces:
 ```
 /benchmarks/custom-bench/results/
   └── [timestamp]_[benchmark]/
-        └── results.jsonl                          # detailed per completion logs
+        └── results.jsonl                          # detailed per-completion logs
 ```
