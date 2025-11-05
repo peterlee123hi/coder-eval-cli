@@ -66,7 +66,7 @@ def print_results(
 
     print("────────────────────────────────────────────")
     print(
-        f"✅ Evaluated {evaluated_tasks}/{total_tasks} tasks on {benchmark_name} with model {model_name}"
+        f"Evaluated {evaluated_tasks}/{total_tasks} tasks on {benchmark_name} with model {model_name}"
     )
 
     if evaluated_tasks > 0:
@@ -130,7 +130,7 @@ def evaluate(
     if not tasks_data:
         typer.echo(f"❌ No tasks found in {tasks_path}")
         raise typer.Exit(1)
-    typer.echo(f"✅ Read {len(tasks_data)} tasks from {tasks_path}")
+    typer.echo(f"Read {len(tasks_data)} tasks from {tasks_path}")
 
     # Get benchmark config
     benchmark_id: str = next(iter(tasks_data.values()))["benchmark"]
@@ -144,7 +144,7 @@ def evaluate(
         typer.echo(f"❌ No samples found in {samples_path}")
         raise typer.Exit(1)
     model_name: str = samples_data[0]["model_name"]
-    typer.echo(f"✅ Read {len(samples_data)} samples from {samples_path}")
+    typer.echo(f"Read {len(samples_data)} samples from {samples_path}")
 
     # Call evaluator from registry
     results: list[SampleResult] = []
@@ -179,4 +179,4 @@ def evaluate(
     with (results_dir / "results.jsonl").open("w", encoding="utf-8") as f:
         for result in results:
             f.write(json.dumps(result) + "\n")
-    typer.echo(f"✅ Wrote {len(results)} results to {results_dir / 'results.jsonl'}")
+    typer.echo(f"Wrote {len(results)} results to {results_dir / 'results.jsonl'}")

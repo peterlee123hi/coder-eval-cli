@@ -20,7 +20,7 @@ def ensure_docker_image() -> None:
             capture_output=True,
             text=True,
         )
-        print(f"✅ Found existing Docker image '{DOCKER_IMAGE}'")
+        print(f"Found existing Docker image '{DOCKER_IMAGE}'")
     except subprocess.CalledProcessError:
         print(f"🔨 Building Docker image '{DOCKER_IMAGE}'...")
 

@@ -3,20 +3,19 @@ from coder_eval.docker_utils import run_script
 
 
 def evaluate(task: Task, sample: Sample) -> SampleResult:
-    """Evaluate a HumanEval task with completions and summarize results."""
+    """Evaluate a MBPP task with completions and summarize results."""
     num_passed: int = 0
     num_failed: int = 0
     results: list[ExecResult] = []
 
     for completion in sample["completions"]:
         # Build runnable script
-        full_script: str = (
-            f"{task['prompt'].rstrip()}\n"
-            f"{completion.rstrip()}\n\n"
-            f"{task['tests'][0].strip()}\n\n"
-            f"if __name__ == '__main__':\n"
-            f"    check({task['entry_point']})\n"
-        )
+        full_script_parts: list[str] = [
+            task["test_setup"],
+            completion.strip(),
+            "\n".join(task["tests"]),
+        ]
+        full_script: str = "\n\n".join([part for part in full_script_parts if part])
 
         exec_result: ExecResult = run_script(full_script)
         passed: bool = exec_result.get("returncode", 1) == 0
@@ -28,7 +27,7 @@ def evaluate(task: Task, sample: Sample) -> SampleResult:
         else:
             num_failed += 1
 
-    # Build a single summarized result
+    # Build summarized result
     summary: SampleResult = SampleResult(
         task_id=task["id"],
         model_name=sample["model_name"],

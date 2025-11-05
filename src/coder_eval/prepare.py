@@ -56,7 +56,7 @@ def prepare(
     typer.echo(f"Preparing {benchmark_name} at {path}")
 
     tasks: list[Task] = config["fetch"]()
-    typer.echo(f"✅ Prepared {len(tasks)} tasks from {benchmark_name}")
+    typer.echo(f"Prepared {len(tasks)} tasks from {benchmark_name}")
 
     # Write tasks.jsonl to path
     base_dir: Path = Path(path)
@@ -64,7 +64,7 @@ def prepare(
     with open(base_dir / "tasks.jsonl", "w") as f:
         for task in tasks:
             f.write(json.dumps(task) + "\n")
-    typer.echo(f"✅ Wrote {len(tasks)} tasks to {base_dir / 'tasks.jsonl'}")
+    typer.echo(f"Wrote {len(tasks)} tasks to {base_dir / 'tasks.jsonl'}")
 
     # Write generate_samples.py template to path
     with open(base_dir / "generate_samples.py", "w") as f:

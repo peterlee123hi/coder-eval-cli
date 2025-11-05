@@ -1,13 +1,14 @@
 from typing import TypedDict, Callable
 
 
-class Task(TypedDict):
+class Task(TypedDict, total=False):
     id: str
     benchmark: str
     prompt: str
     entry_point: str
     reference_solution: str
     tests: list[str]
+    test_setup: str
 
 
 class Sample(TypedDict):
