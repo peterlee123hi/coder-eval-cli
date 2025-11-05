@@ -167,5 +167,14 @@ def evaluate(
     # Print results to console
     print_results(results, benchmark_name, model_name, total_tasks=len(tasks_data))
 
-    # TODO: By default, output results to path/results as specified by README (or output-dir if specified)
-    # Alias is from tasks.jsonl and should match the folder name
+    # Write results to JSONL file
+    results_dir: Path = create_results_dir(
+        Path(path),
+        (Path(output_dir) if output_dir else None),
+        benchmark_name,
+        model_name,
+    )
+    with (results_dir / "results.jsonl").open("w", encoding="utf-8") as f:
+        for result in results:
+            f.write(json.dumps(result) + "\n")
+    typer.echo(f"✅ Wrote {len(results)} results to {results_dir / 'results.jsonl'}")
