@@ -7,7 +7,7 @@ authors = [
     {name = "Ying Li", email = "yinglee@ucla.edu"}
 ]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
     "typer (>=0.20.0,<0.21.0)",
     "tqdm (>=4.67.1,<5.0.0)",
@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.scripts]
-coder-eval-cli = "coder_eval.cli:app"
+coder-eval = "coder_eval.cli:app"
 
 [tool.poetry]
 packages = [{ include = "coder_eval", from = "src" }]

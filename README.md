@@ -13,11 +13,15 @@
 
 ## Installation
 
-[TODO: complete this section]
+Install directly from GitHub:
+
+```bash
+pip install --upgrade "coder-eval @ git+https://github.com/peterlee123hi/coder-eval-cli"
+```
 
 ## Usage
 
-[TODO: complete this section]
+Prepare a benchmark and evaluate your model outputs.
 
 ```bash
 # Loads benchmark locally
