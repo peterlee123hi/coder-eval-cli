@@ -16,21 +16,6 @@ class Sample(TypedDict):
     completions: list[str]
 
 
-class SampleResult(TypedDict, total=False):
-    task_id: str
-    model_name: str
-    completion: str
-
-    passed: bool
-    num_passed: int
-    num_failed: int
-
-    stdout: str
-    stderr: str
-    exec_time: float
-    error: str
-
-
 class ExecResult(TypedDict, total=False):
     script: str
     stdout: str
@@ -38,6 +23,15 @@ class ExecResult(TypedDict, total=False):
     returncode: int
     exec_time: float
     error: str
+
+
+class SampleResult(TypedDict, total=False):
+    task_id: str
+    model_name: str
+    passed_any: bool
+    num_passed: int
+    num_failed: int
+    results: list[ExecResult]
 
 
 class BenchmarkConfig(TypedDict):

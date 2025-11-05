@@ -26,18 +26,12 @@ def test_evaluate_single_completion_passes() -> None:
         "exec_time": 0.1,
     }
 
-    with (
-        patch(
-            "coder_eval.evaluators.humaneval_eval.ensure_docker_image"
-        ) as mock_ensure,
-        patch(
-            "coder_eval.evaluators.humaneval_eval.run_script",
-            return_value=mock_exec_result,
-        ) as mock_run,
-    ):
+    with patch(
+        "coder_eval.evaluators.humaneval_eval.run_script",
+        return_value=mock_exec_result,
+    ) as mock_run:
         result = evaluate(task, sample)
 
-    mock_ensure.assert_called_once()
     mock_run.assert_called_once()
 
     # Verify the script was built correctly
@@ -53,8 +47,9 @@ def test_evaluate_single_completion_passes() -> None:
     assert result["model_name"] == "test-model"
     assert result["num_passed"] == 1
     assert result["num_failed"] == 0
-    assert result["completion"] == "    return a + b"
-    assert result.get("passed") is True
+    assert result.get("passed_any") is True
+    assert len(result["results"]) == 1
+    assert result["results"][0]["returncode"] == 0
 
 
 def test_evaluate_single_completion_fails() -> None:
@@ -80,30 +75,26 @@ def test_evaluate_single_completion_fails() -> None:
         "exec_time": 0.1,
     }
 
-    with (
-        patch(
-            "coder_eval.evaluators.humaneval_eval.ensure_docker_image"
-        ) as mock_ensure,
-        patch(
-            "coder_eval.evaluators.humaneval_eval.run_script",
-            return_value=mock_exec_result,
-        ) as mock_run,
-    ):
+    with patch(
+        "coder_eval.evaluators.humaneval_eval.run_script",
+        return_value=mock_exec_result,
+    ) as mock_run:
         result = evaluate(task, sample)
 
-    mock_ensure.assert_called_once()
     mock_run.assert_called_once()
 
     assert result["task_id"] == "test_task_2"
     assert result["model_name"] == "test-model"
     assert result["num_passed"] == 0
     assert result["num_failed"] == 1
-    assert result["completion"] == "    return a + b"
-    assert result.get("passed") is False
+    assert result.get("passed_any") is False
+    assert len(result["results"]) == 1
+    assert result["results"][0]["returncode"] == 1
+    assert "AssertionError" in result["results"][0]["stderr"]
 
 
 def test_evaluate_multiple_completions_first_passes() -> None:
-    """It should use first_pass when multiple completions and first one passes."""
+    """It should track results when multiple completions and first one passes."""
     task: Task = {
         "id": "test_task_3",
         "benchmark": "humaneval",
@@ -144,13 +135,10 @@ def test_evaluate_multiple_completions_first_passes() -> None:
         },
     ]
 
-    with (
-        patch("coder_eval.evaluators.humaneval_eval.ensure_docker_image"),
-        patch(
-            "coder_eval.evaluators.humaneval_eval.run_script",
-            side_effect=mock_exec_results,
-        ) as mock_run,
-    ):
+    with patch(
+        "coder_eval.evaluators.humaneval_eval.run_script",
+        side_effect=mock_exec_results,
+    ) as mock_run:
         result = evaluate(task, sample)
 
     assert mock_run.call_count == 3
@@ -159,13 +147,15 @@ def test_evaluate_multiple_completions_first_passes() -> None:
     assert result["model_name"] == "test-model"
     assert result["num_passed"] == 1
     assert result["num_failed"] == 2
-    # Should use first_pass completion
-    assert result["completion"] == "    return a - b"
-    assert result.get("passed") is True
+    assert result.get("passed_any") is True
+    assert len(result["results"]) == 3
+    assert result["results"][0]["returncode"] == 0  # First passes
+    assert result["results"][1]["returncode"] == 1  # Second fails
+    assert result["results"][2]["returncode"] == 1  # Third fails
 
 
 def test_evaluate_multiple_completions_all_fail() -> None:
-    """It should use last_fail when all completions fail."""
+    """It should track results when all completions fail."""
     task: Task = {
         "id": "test_task_4",
         "benchmark": "humaneval",
@@ -205,13 +195,10 @@ def test_evaluate_multiple_completions_all_fail() -> None:
         },
     ]
 
-    with (
-        patch("coder_eval.evaluators.humaneval_eval.ensure_docker_image"),
-        patch(
-            "coder_eval.evaluators.humaneval_eval.run_script",
-            side_effect=mock_exec_results,
-        ) as mock_run,
-    ):
+    with patch(
+        "coder_eval.evaluators.humaneval_eval.run_script",
+        side_effect=mock_exec_results,
+    ) as mock_run:
         result = evaluate(task, sample)
 
     assert mock_run.call_count == 3
@@ -220,9 +207,9 @@ def test_evaluate_multiple_completions_all_fail() -> None:
     assert result["model_name"] == "test-model"
     assert result["num_passed"] == 0
     assert result["num_failed"] == 3
-    # Should use last_fail completion
-    assert result["completion"] == "    return a * b"
-    assert result.get("passed") is False
+    assert result.get("passed_any") is False
+    assert len(result["results"]) == 3
+    assert all(r["returncode"] == 1 for r in result["results"])  # All fail
 
 
 def test_evaluate_script_building() -> None:
@@ -248,13 +235,10 @@ def test_evaluate_script_building() -> None:
         "exec_time": 0.1,
     }
 
-    with (
-        patch("coder_eval.evaluators.humaneval_eval.ensure_docker_image"),
-        patch(
-            "coder_eval.evaluators.humaneval_eval.run_script",
-            return_value=mock_exec_result,
-        ) as mock_run,
-    ):
+    with patch(
+        "coder_eval.evaluators.humaneval_eval.run_script",
+        return_value=mock_exec_result,
+    ) as mock_run:
         evaluate(task, sample)
 
     call_args = mock_run.call_args
@@ -286,10 +270,7 @@ def test_evaluate_empty_completions() -> None:
         "completions": [],
     }
 
-    with (
-        patch("coder_eval.evaluators.humaneval_eval.ensure_docker_image"),
-        patch("coder_eval.evaluators.humaneval_eval.run_script") as mock_run,
-    ):
+    with patch("coder_eval.evaluators.humaneval_eval.run_script") as mock_run:
         result = evaluate(task, sample)
 
     # Should not call run_script if no completions
@@ -299,3 +280,5 @@ def test_evaluate_empty_completions() -> None:
     assert result["model_name"] == "test-model"
     assert result["num_passed"] == 0
     assert result["num_failed"] == 0
+    assert result.get("passed_any") is False
+    assert result["results"] == []

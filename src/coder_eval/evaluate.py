@@ -2,6 +2,7 @@ import json
 import typer
 from pathlib import Path
 from datetime import datetime
+from coder_eval.docker_utils import ensure_docker_image
 from coder_eval.utils import get_benchmark_or_exit
 from coder_eval.types import Task, BenchmarkConfig, Sample, SampleResult
 
@@ -57,6 +58,9 @@ def evaluate(
 ):
     """Evaluate generated samples."""
     typer.echo(f"Evaluating {samples} on benchmark at {path}")
+
+    # Ensure Docker image is built
+    ensure_docker_image()
 
     # Read tasks.jsonl from path
     tasks_path: Path = Path(path) / "tasks.jsonl"
