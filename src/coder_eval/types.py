@@ -32,6 +32,7 @@ class SampleResult(TypedDict, total=False):
 
 
 class ExecResult(TypedDict, total=False):
+    script: str
     stdout: str
     stderr: str
     returncode: int

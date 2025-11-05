@@ -66,6 +66,8 @@ def run_script(script: str) -> ExecResult:
         "no-new-privileges",
         "--cap-drop",
         "ALL",
+        "--pids-limit" "64",
+        "--read-only",
         "-v",
         f"{temp_dir}:/workspace",
         "-w",
@@ -81,15 +83,17 @@ def run_script(script: str) -> ExecResult:
         proc = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
         elapsed = time.time() - start_time
 
-        result: ExecResult = {
-            "stdout": proc.stdout.strip(),
-            "stderr": proc.stderr.strip(),
-            "returncode": proc.returncode,
-            "exec_time": elapsed,
-        }
+        result: ExecResult = ExecResult(
+            script=script,
+            stdout=proc.stdout.strip(),
+            stderr=proc.stderr.strip(),
+            returncode=proc.returncode,
+            exec_time=elapsed,
+        )
 
     except subprocess.TimeoutExpired:
         result = ExecResult(
+            script=script,
             stdout="",
             stderr="TimeoutExpired",
             returncode=-1,
@@ -99,6 +103,7 @@ def run_script(script: str) -> ExecResult:
 
     except Exception as e:
         result = ExecResult(
+            script=script,
             stdout="",
             stderr=str(e),
             returncode=-1,

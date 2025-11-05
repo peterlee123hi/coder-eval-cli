@@ -4,9 +4,9 @@ from coder_eval.evaluators import humaneval_eval
 
 
 BENCHMARK_CONFIG: dict[str, BenchmarkConfig] = {
-    "humaneval": {
-        "name": "HumanEval",
-        "fetch": humaneval.fetch_tasks,
-        "evaluate": humaneval_eval.evaluate,
-    },
+    "humaneval": BenchmarkConfig(
+        name="HumanEval",
+        fetch=humaneval.fetch_tasks,
+        evaluate=humaneval_eval.evaluate,
+    ),
 }
