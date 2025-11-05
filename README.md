@@ -40,8 +40,8 @@ coder-eval evaluate --path ./benchmarks/custom-mbpp --samples sample.jsonl
 
 | Benchmark | Dataset Source | Description | Revision |
 |------------|----------------|--------------|---------------|
-| **HumanEval** | [openai/openai_humaneval](https://huggingface.co/datasets/evalplus/humanevalplus) | 164 short Python function synthesis tasks. | `7dce605` |
-| **MBPP** | [Muennighoff/mbpp](https://huggingface.co/datasets/evalplus/mbppplus) | 500 mostly beginner Python programming problems. | `d81b829` |
+| **HumanEval** | [openai/openai_humaneval](https://huggingface.co/datasets/openai/openai_humaneval) | 164 short Python function synthesis tasks. | `7dce605` |
+| **MBPP** | [google-research-datasets/mbpp](https://huggingface.co/datasets/google-research-datasets/mbpp) | 500 mostly beginner Python programming problems. | `4bb6404` |
 
 ## Samples Format
 

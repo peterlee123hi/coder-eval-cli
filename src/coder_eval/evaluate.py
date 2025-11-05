@@ -1,4 +1,5 @@
 import json
+import re
 import typer
 from pathlib import Path
 from datetime import datetime
@@ -15,7 +16,8 @@ def create_results_dir(
     """Create a results directory for the evaluation."""
     results_root: Path = output_dir or (path / "results")
     timestamp: str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    outdir: Path = results_root / f"{timestamp}_{benchmark}_{model}"
+    filename: str = re.sub(r"[^\w\-\.]", "_", f"{timestamp}_{benchmark}_{model}")
+    outdir: Path = results_root / filename
     outdir.mkdir(parents=True, exist_ok=True)
     return outdir
 
