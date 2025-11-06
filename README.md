@@ -80,6 +80,6 @@ Each evaluation run produces:
 
 ```
 /benchmarks/custom-bench/results/
-  └── [timestamp]_[benchmark]/
+  └── [timestamp]_[benchmark]_[model]/
         └── results.jsonl                          # detailed per-completion logs
 ```
