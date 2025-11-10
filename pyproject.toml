@@ -51,4 +51,4 @@ fix = [
 typecheck = "mypy src"
 
 # Pass args with `poetry poe cli prepare --benchmark humaneval`
-cli = "coder-eval-cli"
+cli = "coder-eval"
